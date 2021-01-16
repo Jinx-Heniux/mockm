@@ -33,7 +33,13 @@
     "nodemon": "^2.0.6",
     "path-to-regexp": "0.1.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "axios": "^0.21.1",
+    "husky": "^4.3.8",
+    "mocha": "^8.2.1",
+    "mochawesome": "^6.2.1",
+    "shelljs": "^0.8.4"
+  },
   "pluginDependencies": {
     "translate-platforms": "0.0.7",
     "curlconverter": "3.12.0",
@@ -49,7 +55,12 @@
     "start": "nodemon --ignore httpData/ --ignore page/ -q -w \"*.js\" --exec \" node run.js dev\"",
     "serve": "node run.js dev",
     "start:page": "cd page && browser-sync start --no-notify --server --files '**/**'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "fkill -f :9005 & mocha -b -R mochawesome -t 0 --ignore test/util.js --reporter-options reportDir=test/res,reportFilename=index"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test"
+    }
   },
   "engines": {
     "node": ">=10.12.0"
